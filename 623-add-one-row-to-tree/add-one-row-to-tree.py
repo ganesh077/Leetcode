@@ -11,11 +11,6 @@ class Solution:
         if not root:
             node = TreeNode(val)
             return node
-        if not root.left  and not root.right:
-            node = TreeNode(val)
-            node.left = root
-            root = node
-            return node
         if depth - 1 == 0:
             node = TreeNode(val)
             node.left = root
