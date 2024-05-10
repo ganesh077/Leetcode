@@ -3,23 +3,15 @@ class Solution:
         #nums = set(sorted(nums))
         map = defaultdict(int)
         res = []
-        max = -1
-        j = 0
         for i in nums:
             map[i] += 1
+        count = [[] for _ in range(len(nums)+1)]
+        for key,val in map.items():
+            count[val].append(key)
+        for i in range(len(count)-1,0,-1):
+            for j in count[i]:
+                res.append(j)
+            if len(res) == k:
+                return res
+         
         
-
-
-        while k:
-            for key,val in map.items():
-                if val > max:
-                    max = val
-                    j = key
-            res.append(j)
-            print("___")
-            del map[j]
-            j = 0 
-            max = -1
-            k = k - 1
-            
-        return res
