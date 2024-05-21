@@ -9,7 +9,7 @@ FilteredEnrollments AS (
     JOIN MaxGrades mg ON e.student_id = mg.student_id AND e.grade = mg.max_grade
 )
 SELECT student_id,
-       CASE WHEN COUNT(*) = 1 THEN MAX(course_id) ELSE MIN(course_id) END AS course_id,
+       CASE WHEN COUNT(*) = 1 THEN course_id ELSE MIN(course_id) END AS course_id,
        MAX(grade) AS grade
 FROM FilteredEnrollments
 GROUP BY student_id
