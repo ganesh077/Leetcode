@@ -1,31 +1,18 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        res = []
-        if len(s) < 2:
-            return False
+        bracket_pair = {')':'(','}':'{',']':'['}
+        stack = []
         for i in s:
-            if i == "(" or i == "{" or i =="[":
-                res.append(i)
-            if i == ")":
-                if not res:
+            if i in bracket_pair and stack:
+                if stack[-1] != bracket_pair[i]:
                     return False
-                if res.pop() != "(":
-                    return False
+                else:
+                    stack.pop()
+            elif i in bracket_pair and not stack:
+                return False
+            else:
+                stack.append(i)    
+        return True if not stack else False
+            
 
-            if i == "}":
-                if not res:
-                    return False
-                if res.pop() != "{":
-                    return False
-            
-            if i == "]":
-                if not res:
-                    return False
-                if res.pop() != "[":
-                    return False
-        if res:
-            return False
-        return True
-            
-            
-            
+        
