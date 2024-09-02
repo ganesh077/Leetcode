@@ -3,10 +3,9 @@ class Solution:
         i = 0
         total = sum(chalk)
 
-        if len(chalk) < 2:
-            return len(chalk) - 1
+
         while k >= total:
-            k -= total
+            k %= total
         
         while k >= chalk[i]:
             k -= chalk[i]
