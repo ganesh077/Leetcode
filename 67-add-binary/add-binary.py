@@ -1,16 +1,18 @@
 class Solution:
     def addBinary(self, a: str, b: str) -> str:
-        sum_a,len_a = 0,len(a)-1
-        sum_b,len_b = 0,len(b)-1
-        res = 0
-        for char in a:
-            sum_a += int(char) * 2**len_a
-            len_a -= 1
+        n = max(len(a),len(b))
+        a,b = a.zfill(n),b.zfill(n)
+        res = []
+        carry = 0
+
+        for i in range(n-1,-1,-1):
+            sum = int(a[i]) + int(b[i]) + carry
+            res.append(str(sum%2))
+            carry = sum//2
         
-        for char in b:
-            sum_b += int(char) * 2**len_b
-            len_b -= 1
+        if carry == 1:
+            res.append("1")
+        res.reverse()
 
-        res = sum_a + sum_b
+        return ''.join(res)
 
-        return bin(res)[2:]
