@@ -10,7 +10,7 @@ class Solution {
             if(distance_start < distance_end) {
                 end -= 1;
             }
-            else if (Math.abs(distance_start) > Math.abs(distance_end)) {
+            else if (distance_start > distance_end) {
                 start += 1;
             }
             else {
