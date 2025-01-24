@@ -21,7 +21,6 @@ class Solution {
             }
             
         }
-        System.out.println(start + " " + end);
         return Arrays.stream(arr, start, end + 1)
                                  .boxed()
                                  .collect(Collectors.toList());
