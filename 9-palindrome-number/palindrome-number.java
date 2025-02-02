@@ -18,8 +18,7 @@ class Solution {
         int temp = x;
         int res = 0;
         while (temp > 0) {
-            int num = temp % 10;
-            res = res * 10 + num;
+            res = res * 10 + (temp%10);
             temp = temp/10;
         }
         return res;
