@@ -4,13 +4,13 @@ class Solution {
         int currcount = 0;
         for (int i:nums) {
             if (i == 1) {
-                ++currcount;
-                maximum = Math.max(maximum,currcount);
+                currcount++;
             }
             else {
+                maximum = Math.max(maximum,currcount);
                 currcount = 0;
             }
         }
-        return maximum;
+        return  Math.max(maximum,currcount);
     }
 }
