@@ -1,24 +1,12 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        Arrays.sort(nums);
-        int max = findmax(nums);
-
-        for(int i=0; i<max; i++) {
-            if(nums[i] != i) {
-                return i;
-            }
-        }
-        return max;
-    }
-
-    static int findmax(int[] nums) {
-        int max = -1;
-        for(int i:nums) {
-            if(i > max) {
-                max = i;
-            } 
+        int n = nums.length;
+        int expectedsum = (n*(n+1))/2;
+        int realsum = 0;
+        for (int i: nums) {
+            realsum += i;
         }
 
-        return max+1;
+        return expectedsum - realsum;
     }
 }
