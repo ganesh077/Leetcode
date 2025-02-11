@@ -1,25 +1,22 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int mid = nums.length/2;
-        if (nums.length <= 1) {
-            return nums[0];
-        }
-        Map<Integer, Integer> freqmap = new HashMap<Integer, Integer>();
-
-        for (int i: nums) {
-            if (freqmap.containsKey(i)) {
-                freqmap.put(i,freqmap.get(i)+1);
-                if (freqmap.get(i) > mid) {
-                    return i;
-                } 
+        Arrays.sort(nums);
+        int maxcount = 0;
+        int currcount = 0;
+        int max = nums[0];
+        for( int i=0; i<nums.length-1; i++) {
+            if (nums[i] == nums[i+1]) {
+                currcount++;
+                if (currcount > maxcount) {
+                    maxcount = currcount;
+                    max = nums[i];
+                }
             }
             else {
-                freqmap.put(i,1);
+                currcount = 0;
             }
-            
         }
 
-        System.out.print(Arrays.toString(freqmap.entrySet().toArray()));
-        return 1;
+        return max;
     }
 }
