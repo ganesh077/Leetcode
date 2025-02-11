@@ -4,19 +4,11 @@ class Solution {
         int count = 0;
 
         for (int i:nums) {
-            if ( i == current) {
-                count++;
-            }
-            else {
-                 count--;
-            }
-            
             if ( count == 0) {
                 current = i;
-                count++;
             }
-            
 
+            count += (i == current) ? -1 : 1;
         }
         return current;
     }
