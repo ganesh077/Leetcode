@@ -20,16 +20,21 @@ class Solution {
     public int maxCrossSubArray(int[] nums,int left,int mid,int right) {
         int sum = 0;
         int leftsum = Integer.MIN_VALUE;
-        for (int i = mid; i >= left; i--) {
-            sum += nums[i];
-            leftsum = Math.max(leftsum, sum);
+        int temp = mid;
+        while (temp >= left) {
+            sum += nums[temp];
+            leftsum = Math.max(leftsum,sum);
+            temp--;
         }
         int rightsum = Integer.MIN_VALUE;
         sum = 0;
-        for (int j = mid + 1; j <= right; j++) {
-        sum += nums[j];
-        rightsum = Math.max(rightsum, sum);
-}
+        mid++;
+        while (mid <= right) {
+            sum += nums[mid];
+            rightsum = Math.max(rightsum,sum);
+            mid++;
+        }
+
         return leftsum+rightsum;
     }
 }
