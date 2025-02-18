@@ -1,35 +1,57 @@
 class Solution {
     public void setZeroes(int[][] matrix) {
-        ArrayList<int[]> indexes = new ArrayList<>();
-        for (int row=0; row<matrix.length; row++) {
-            for (int col=0; col<matrix[row].length; col++) {
-                if (matrix[row][col] == 0) {
-                    indexes.add(new int[]{row,col});
+            boolean firstrow = false;
+            boolean firstcol = false;
+            int row_len = matrix.length;
+            int col_len = matrix[0].length;
+
+
+            for (int i=0; i<row_len; i++) {
+                if (matrix[i][0] == 0) {
+                    firstrow = true;
+                    break;
+                }
+            }
+
+            for (int i=0; i<col_len; i++) {
+                if (matrix[0][i] == 0) {
+                    firstcol = true;
+                    break;
+                }
+            }
+
+            for (int i=1; i<row_len; i++) {
+                for (int j=1; j<col_len; j++) {
+                    if (matrix[i][j] == 0) {
+                        matrix[i][0] = 0;
+                        matrix[0][j] = 0;
                     }
                 }
             }
-        for (int[] num: indexes) {
-            int row = num[0];
-            int col = num[1];
-            while (row < matrix.length) {
-                matrix[row][col] = 0;
-                row++;
+
+            for (int i=1; i<row_len; i++) {
+                for (int j=1; j<col_len; j++) {
+                    if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                        matrix[i][j] = 0;
+                    }
+                }
             }
-            row = num[0];
-            while (row >= 0) {
-                matrix[row][col] = 0;
-                row--;
+
+            if (firstrow) {
+                for (int i=0; i<row_len; i++) {
+                    matrix[i][0] = 0;
+                }
+
             }
-            row = num[0];
-            while (col < matrix[row].length) {
-                matrix[row][col] = 0;
-                col++;
+
+            if (firstcol) {
+                for (int i=0; i<col_len; i++) {
+                    matrix[0][i] = 0;
+                }
+
             }
-            col = num[1];
-            while (col >= 0) {
-                matrix[row][col] = 0;
-                col--;
-            }
-        }
+
+
+
         }  
     }
