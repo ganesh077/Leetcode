@@ -1,15 +1,6 @@
 class Solution {
     public int subarraySum(int[] nums, int k) {
         HashMap<Integer,Integer> prefix = new HashMap<Integer,Integer>();
-
-        if (nums.length == 1) {
-            if (nums[0] == k) {
-                return 1;
-            }
-            else {
-                return 0;
-            }
-        }
         int count = 0;
         int sum = 0;
         prefix.put(0,1);
@@ -20,8 +11,6 @@ class Solution {
                 count += prefix.get(sum-k);
             }
             prefix.put(sum,prefix.getOrDefault(sum,0)+1);
-            
-            
             
         }
 
