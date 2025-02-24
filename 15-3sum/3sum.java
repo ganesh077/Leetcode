@@ -6,38 +6,27 @@ class Solution {
         List<List<Integer>> result = new ArrayList<>();
 
         for (int i = 0; i < nums.length - 2; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate elements
-            
-            int target = -nums[i]; // We need two numbers summing to -nums[i]
-            HashSet<List<Integer>> seen = new HashSet<>(); // To avoid duplicate triplets
-            List<List<Integer>> twoSumPairs = twoSum(nums, i, target);
-
-            for (List<Integer> pair : twoSumPairs) {
-                List<Integer> triplet = Arrays.asList(nums[i], pair.get(0), pair.get(1));
-                if (!seen.contains(triplet)) {
-                    seen.add(triplet);
-                    result.add(triplet);
+            if (i > 0 && nums[i] == nums[i-1]) continue;
+            int left = i+1;
+            int right = nums.length-1;
+            int target = -nums[i];
+            while (left < right) {
+                int sum = nums[left] + nums[right];
+                if (sum == target) {
+                    result.add(Arrays.asList(nums[left],nums[right],nums[i]));
+                    while (left < right && nums[left] == nums[left+1]) left++;
+                    while (left < right && nums[right] == nums[right-1]) right--;
+                    right--;
+                    left++;
+                }
+                else if (sum > target) {
+                    right--;
+                }
+                else {
+                    left++;
                 }
             }
         }
         return result;
-    }
-
-    public List<List<Integer>> twoSum(int[] nums, int index, int target) {
-        HashMap<Integer, Integer> sumFreq = new HashMap<>();
-        List<List<Integer>> res = new ArrayList<>();
-
-        for (int i = index + 1; i < nums.length; i++) { // Start after 'index'
-            int complement = target - nums[i];
-
-            if (sumFreq.containsKey(complement)) {
-                res.add(Arrays.asList(complement, nums[i]));
-                
-                // Skip duplicate pairs (important!)
-                while (i + 1 < nums.length && nums[i] == nums[i + 1]) i++;
-            }
-            sumFreq.put(nums[i], i);
-        }
-        return res;
     }
 }
