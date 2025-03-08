@@ -1,26 +1,26 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        if (nums.length == 0) {
+        int left = binary(nums,target,false);
+        if (left == nums.length || nums[left] != target) {
             return new int[]{-1,-1};
         }
-
-        int[] res = new int[2];
-        res[0] = binarystart(nums,target);
-        res[1] = binaryend(nums,target);  
-
-        return res;      
+        int right = binary(nums,target,true);
+        return new int[]{left,right};      
     }
 
-    public int binaryend(int[] nums, int target) {
-        int low=0, high=nums.length-1, end = -1;
+    public int binary(int[] nums, int target,boolean flag) {
+        int low=0, high=nums.length-1, ans = 0;
 
         while (low<=high) {
             int mid = low + (high-low)/2;
-
-
             if (nums[mid] == target) {
-                end = mid;
-                low = mid+1;
+                ans = mid;
+                if(flag) {
+                    low = mid + 1;
+                }
+                else {
+                    high = mid - 1;
+                }
             }
             else if (nums[mid] < target) {
                 low = mid+1;
@@ -30,27 +30,6 @@ class Solution {
             }
         }
 
-        return end;
-    }
-
-    public int binarystart(int[] nums, int target) {
-        int low=0, high=nums.length-1, start = -1;
-
-        while (low<=high) {
-            int mid = low + (high-low)/2;
-
-            if (nums[mid] == target) {
-                 start = mid;
-                 high = mid - 1;
-            }
-            else if (nums[mid] < target) {
-                low = mid+1;
-            }
-            else {
-                high = mid-1;
-            }
-        }
-
-        return start;
+        return ans;
     }
 }
