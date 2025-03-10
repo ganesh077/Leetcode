@@ -4,13 +4,10 @@ class Solution {
         //System.out.print(findpivot);
         if (findpivot <= 0 || nums.length <= 1) {
             //System.out.print("enter");
-            return binarySearch(nums,target);
+            return binarySearch(nums,target,0,nums.length-1);
         }
-        int[] rightarray = Arrays.copyOfRange(nums,findpivot,nums.length);
-        int[] leftarray = Arrays.copyOfRange(nums,0,findpivot);
-
-        int rightsearch = binarySearch(rightarray,target);
-        int leftsearch = binarySearch(leftarray,target);
+        int rightsearch = binarySearch(nums,target,findpivot,nums.length-1);
+        int leftsearch = binarySearch(nums,target,0,findpivot-1);
 
         //System.out.print(leftarray.length);
 
@@ -18,7 +15,7 @@ class Solution {
             return -1;
         }
         else if (rightsearch != -1) {
-            return rightsearch+findpivot;
+            return rightsearch;
         }
         else {
             return leftsearch;
@@ -31,7 +28,7 @@ class Solution {
         int right = arr.length - 1;
         while (left < right) {
             int mid = left + (right - left) / 2;
-            if (arr[mid] >= arr[right]) {
+            if (arr[mid] > arr[right]) {
                 left = mid + 1;
             } else {
                 right = mid;
@@ -40,12 +37,10 @@ class Solution {
         return left;
     }
 
-    public int binarySearch(int[] arr,int target) {
+    public int binarySearch(int[] arr,int target,int left, int right) {
         if (arr.length == 0) {
             return -1;
         }
-
-        int left=0, right=arr.length-1;
 
         while(left <= right) {
             int mid = left + (right - left)/2;
