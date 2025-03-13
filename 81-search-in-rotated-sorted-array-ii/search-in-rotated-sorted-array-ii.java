@@ -10,7 +10,6 @@ class Solution {
             }
             if (arr[left] == arr[mid] && arr[mid] == arr[right]) {
                 left++;
-                right--;
             }
             else if (arr[mid] >= arr[left]) {
                 if (target >= arr[left] && target < arr[mid]) {
