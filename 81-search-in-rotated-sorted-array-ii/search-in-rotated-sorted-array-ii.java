@@ -8,10 +8,12 @@ class Solution {
             if (arr[mid] == target) {
                 return true;
             }
-            if (arr[left] == arr[mid] && arr[mid] == arr[right]) {
+            if(arr[left] == arr[mid] && arr[right] == arr[mid]) {
+                left++;
                 right--;
             }
-            else if (arr[mid] >= arr[left]) {
+
+            else if (arr[left] <= arr[mid]) {
                 if (target >= arr[left] && target < arr[mid]) {
                     right = mid - 1;
                 }
@@ -19,6 +21,7 @@ class Solution {
                     left = mid + 1;
                 }
             }
+
             else {
                 if (target > arr[mid] && target <= arr[right]) {
                     left = mid + 1;
@@ -28,9 +31,8 @@ class Solution {
                 }
             }
 
-            
         }
 
         return false;
-    }
+}
 }
