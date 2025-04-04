@@ -6,7 +6,7 @@ class Solution {
             max = Math.max(max,weight);
             sum += weight;
         }
-        int left = max;
+        int left = Math.max(max, sum/days);
         int right = sum;
 
         while (left <= right) {
