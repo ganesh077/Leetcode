@@ -11,7 +11,7 @@ class Solution {
 
         while (left <= right) {
             int mid = left + (right - left)/2;
-            if(cargocheck(weights,days,mid,sum)) {
+            if(cargocheck(weights,days,mid)) {
                 right = mid - 1;
             }
             else {
@@ -22,22 +22,17 @@ class Solution {
         return left;
     }
 
-    public boolean cargocheck(int[] weights,int days,int current,int totalsum) {
-        int sum = 0;
-        int iterate = 0;
-        while(days > 0) {
-            while (iterate < weights.length && (sum+weights[iterate]) <= current) {
-                sum += weights[iterate];
-                iterate++;
+    public boolean cargocheck(int[] weights,int days,int current) {
+        
+        int daysNeeded = 1;
+        int currentLoad = 0;
+        for (int w : weights) {
+            if (currentLoad + w > current) {
+                daysNeeded++;
+                currentLoad = 0;
             }
-            totalsum -= sum;
-            sum = 0;
-            days--; 
+            currentLoad += w;
         }
-
-        if (totalsum > 0) {
-            return false;
-        }
-        return true;
+        return daysNeeded <= days;
     }
 }
