@@ -1,51 +1,38 @@
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
-        int n = weights.length;
-        int max = 0, sum = 0;
-        for (int w : weights) {
-            max = Math.max(max, w);
-            sum += w;
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for(int weight: weights) {
+            max = Math.max(max,weight);
+            sum += weight;
         }
-        
-        int[] prefix = new int[n + 1];
-        for (int i = 0; i < n; i++) {
-            prefix[i + 1] = prefix[i] + weights[i];
-        }
-        
-        int left = Math.max(max, (int)Math.ceil(sum / (double)days));
-        int right = sum;
-        
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (canShipWithBinarySearch(prefix, days, mid)) {
-                right = mid;
-            } else {
+        int left = Math.max(max, sum/days);
+        int right = Math.min(sum,sum/days+max);
+
+        while (left <= right) {
+            int mid = left + (right - left)/2;
+            if(cargocheck(weights,days,mid)) {
+                right = mid - 1;
+            }
+            else {
                 left = mid + 1;
             }
         }
+
         return left;
     }
-    
-    // Optimized check using a precomputed prefix sum and binary search.
-    private boolean canShipWithBinarySearch(int[] prefix, int days, int capacity) {
-        int n = prefix.length - 1;
-        int i = 0; // current index in weights
-        for (int d = 0; d < days && i < n; d++) {
-            int low = i + 1, high = n;
-            int pos = i; // last valid position on this day
-            while (low <= high) {
-                int mid = low + (high - low) / 2;
-                if (prefix[mid] - prefix[i] <= capacity) {
-                    pos = mid;
-                    low = mid + 1;
-                } else {
-                    high = mid - 1;
-                }
+
+    public boolean cargocheck(int[] weights,int days,int current) {
+        
+        int daysNeeded = 1;
+        int currentLoad = 0;
+        for (int w : weights) {
+            if (currentLoad + w > current) {
+                daysNeeded++;
+                currentLoad = 0;
             }
-            
-            if (pos == i) return false;  // Can't move forward, capacity too small
-            i = pos;
+            currentLoad += w;
         }
-        return i == n;  // All packages are shipped
+        return daysNeeded <= days;
     }
 }
