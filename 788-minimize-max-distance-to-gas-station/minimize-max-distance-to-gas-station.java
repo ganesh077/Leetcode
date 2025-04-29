@@ -8,7 +8,7 @@ class Solution {
             right = Math.max(right, (stations[i] - stations[i-1]));
         }
 
-        for(int i=0; i<100 ; i++) {
+        for(int i=0; i<60 ; i++) {
             float mid = left + (right - left)/2;
 
             if(canReduce(stations, k, mid)) {
