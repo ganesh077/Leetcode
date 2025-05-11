@@ -1,16 +1,22 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        if(nums1.length > nums2.length) return findMedianSortedArrays(nums2,nums1);
+        //if(nums1.length > nums2.length) return findMedianSortedArrays(nums2,nums1);
 
         int len1 = nums1.length;
         int len2 = nums2.length;
-        int left=0, right=nums1.length;
+        //int left=0, right=nums1.length;
         int half = (len1+len2+1)/2;
+        int left  = Math.max(0,   half - len2);   // can’t take more from B than it has
+        int right = Math.min(len1, half); 
         
 
         while(left <= right) {
+              
             int mid = (left+right)/2;
             int cutB = half - mid;
+            if(cutB < 0) {
+                cutB = 0;
+            }
             int l1 = (mid == 0)      ? Integer.MIN_VALUE : nums1[mid - 1];
             int r1 = (mid == len1)   ? Integer.MAX_VALUE : nums1[mid];
             int l2 = (cutB == 0)     ? Integer.MIN_VALUE : nums2[cutB - 1];
