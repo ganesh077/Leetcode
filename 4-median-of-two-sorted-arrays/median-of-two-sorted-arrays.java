@@ -1,40 +1,38 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int point_left = 0;
-        int point_right = 0;
-        ArrayList<Double> res = new ArrayList<Double>();
+        if(nums1.length > nums2.length) return findMedianSortedArrays(nums2,nums1);
 
-        while(point_left < nums1.length && point_right < nums2.length) {
-            if(nums1[point_left] < nums2[point_right]) {
-                res.add((double)nums1[point_left]);
-                point_left++;
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        int left=0, right=nums1.length;
+        int half = (len1+len2+1)/2;
+        
+
+        while(left <= right) {
+            int mid = (left+right)/2;
+            int cutB = half - mid;
+            int l1 = (mid == 0)      ? Integer.MIN_VALUE : nums1[mid - 1];
+            int r1 = (mid == len1)   ? Integer.MAX_VALUE : nums1[mid];
+            int l2 = (cutB == 0)     ? Integer.MIN_VALUE : nums2[cutB - 1];
+            int r2 = (cutB == len2)  ? Integer.MAX_VALUE : nums2[cutB];
+
+            if(l1<=r2 && l2<=r1) {
+                if((len1+len2)%2 == 0) {
+                    return (Math.max(l1,l2) + Math.min(r1,r2))/2.0;
+                }
+                else {
+                    return (Math.max(l1,l2));
+                }
+            }
+            else if(l2>r1) {
+                left = mid + 1;
             }
             else {
-                res.add((double)nums2[point_right]);
-                point_right++;
+                right = mid - 1;
             }
         }
 
-        while(point_left < nums1.length) {
-            res.add((double)nums1[point_left]);
-            point_left++;
-        }
+        return -1;
 
-        while(point_right < nums2.length) {
-            res.add((double)nums2[point_right]);
-            point_right++;
-        }
-
-        for (double val : res) {
-             System.out.print(val + " ");
 }
-// Output: 10 20 30
-
-        int mid = res.size()/2;
-        if(res.size()%2 == 0 && mid-1 >= 0) {
-            return (res.get(mid)+res.get(mid-1))/2 ;
-        }
-        return res.get(mid);
-
-    }
 }
