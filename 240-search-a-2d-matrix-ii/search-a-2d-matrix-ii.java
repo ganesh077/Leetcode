@@ -4,8 +4,9 @@ class Solution {
         while(curr_row < matrix.length) {
             int left = 0;
             int right = matrix[0].length-1;
-            while(left <= right && target >= matrix[curr_row][0] && target <= matrix[curr_row][matrix[0].length-1]) {
-                System.out.println(curr_row);
+            if(target >= matrix[curr_row][0] && target <= matrix[curr_row][matrix[0].length-1]) {
+                while(left <= right) {
+
                 int mid = left + (right - left)/2;
 
                 if(matrix[curr_row][mid] == target) {
@@ -18,6 +19,8 @@ class Solution {
                     right = mid - 1;
                 }
 
+                }
+                
             }
             curr_row++; 
         }
