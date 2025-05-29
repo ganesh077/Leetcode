@@ -3,7 +3,7 @@ class Solution {
         if(s.length() != t.length()) {
             return false;
         }
-        int[] char_vals = new int[150];
+        int[] char_vals = new int[64000];
 
         for(int i=0; i<s.length(); i++) {
             int ch1 = s.charAt(i);
