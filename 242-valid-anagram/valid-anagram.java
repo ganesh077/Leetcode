@@ -12,7 +12,7 @@ class Solution {
             char_vals[ch2]--;
         }
         
-        System.out.print(Arrays.toString(char_vals));
+       // System.out.print(Arrays.toString(char_vals));
         for(int i: char_vals) {
             if(i != 0) {
                 return false;
