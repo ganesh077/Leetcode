@@ -1,39 +1,39 @@
 class Solution {
     public String frequencySort(String s) {
-        Map<Character, Integer> freqMap = new HashMap<>();
-        for (char ch : s.toCharArray()) {
-            freqMap.put(ch, freqMap.getOrDefault(ch, 0) + 1);
+        int[] mymap = new int[256];
+
+        for(int i: s.toCharArray()) {
+            mymap[i]++;
         }
 
-        // Step 2: Create a TreeSet with comparator that sorts by count
-        Set<Map.Entry<Character, Integer>> sortedSet = new TreeSet<>(
-            (a, b) -> {
-                int cmp = Integer.compare( b.getValue(),a.getValue());
-                if (cmp == 0) {
-                    return Character.compare(a.getKey(), b.getKey()); // fallback to key to avoid duplicates
-                }
-                return cmp;
+        List<List<Character>> buckets = new ArrayList<>();
+
+        for(int i=0; i<=s.length(); i++) {
+            buckets.add(new ArrayList<>());
+        }
+
+        for(int i=0; i<mymap.length; i++) {
+            if(mymap[i] == 0) {
+                continue;
             }
-        );
-
-        sortedSet.addAll(freqMap.entrySet());
-
-        // Step 3: Print sorted entries
-        for (Map.Entry<Character, Integer> entry : sortedSet) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+            buckets.get(mymap[i]).add((char)i);
         }
+
+        System.out.println(buckets);
 
         StringBuilder sb = new StringBuilder();
-
-        for(Map.Entry<Character, Integer> entry : sortedSet) {
-            char ch = entry.getKey();
-            int count = entry.getValue();
-            for(int i=0; i<count; i++) {
-                sb.append(ch);
+        for(int i=s.length(); i>=0; i--) {
+            for(int j=0; j<buckets.get(i).size(); j++) {
+                for(int k=0; k<i; k++){
+                    sb.append(buckets.get(i).get(j));
+                }
             }
-            
         }
-        
+
         return sb.toString();
+
+
+
+
     }
 }
