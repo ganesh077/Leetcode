@@ -12,16 +12,13 @@ class Solution {
         romans.put('M',1000);
 
         for(int i=0; i<s.length(); i++) {
-            if(i < s.length()-1 && romans.get(s.charAt(i)) < romans.get(s.charAt(i+1))) {
-                System.out.println("enter   "+s.charAt(i)+" "+s.charAt(i+1));
-            
+            int curr = romans.get(s.charAt(i));
+            int next = (i+1 < s.length())? romans.get(s.charAt(i+1)):0;
 
-                sum -= romans.get(s.charAt(i));
-                sum += romans.get(s.charAt(i+1));
-                i+=1;
-            }
-            else {
-            sum += romans.get(s.charAt(i));
+            sum+= (curr < next? next - curr : curr);
+
+            if(curr < next) {
+                i++;
             }
         }
         
