@@ -34,12 +34,12 @@ class Solution {
                     }
                 }
                 int digit = ss.charAt(index) - '0';
-                
+
                 if(res > INT_MAX/10 || (res == INT_MAX/10 && digit > INT_MAX % 10)) {
                     return (sign == -1)? INT_MIN:INT_MAX;
                 }
                 
-                res = res * 10 + (ss.charAt(index) - '0');
+                res = res * 10 + digit;
                 
                 index++;
                 }
