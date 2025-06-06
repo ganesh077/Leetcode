@@ -1,52 +1,47 @@
 class Solution {
     public int myAtoi(String s) {
-        String ss = s.trim();
-        //System.out.print(no_space);
-        int sign = 1;
-        StringBuilder sb = new StringBuilder();
+        // 1) Trim leading/trailing spaces
+        String ss = (s == null) ? "" : s.trim();
+        if (ss.isEmpty()) {
+            return 0;
+        }
+
+        final int INT_MAX = Integer.MAX_VALUE; //  2147483647
+        final int INT_MIN = Integer.MIN_VALUE; // -2147483648
+
+        // 2) Handle optional sign
         int index = 0;
-        int res = 0;
-        final int INT_MAX = Integer.MAX_VALUE;
-        final int INT_MIN = Integer.MIN_VALUE;
+        boolean negative = false;
+        char first = ss.charAt(0);
 
-        if (ss.equals("")) {
+        if (first == '+' || first == '-') {
+            negative = (first == '-');
+            index++;
+        }
+
+        // 3) If next character is not a digit, return 0
+        if (index >= ss.length() || !Character.isDigit(ss.charAt(index))) {
             return 0;
         }
 
+        // 4) Parse digits and check overflow
+        int result = 0;
+        while (index < ss.length()) {
+            char c = ss.charAt(index);
+            if (!Character.isDigit(c)) break;
 
-        if(!Character.isDigit(ss.charAt(0)) && ss.charAt(0) != '-' && ss.charAt(0) != '+') {
-            return 0;
-        }
-        
-        
-        while(index < ss.length()) {
-            if(!Character.isDigit(ss.charAt(index))) {
-                if(index > 0) {
-                    return 0;
-                }
-                index++;
-                continue;
+            int digit = c - '0';
+
+            // Overflow check before multiplying
+            if (result > INT_MAX / 10 || 
+               (result == INT_MAX / 10 && digit > INT_MAX % 10)) {
+                return negative ? INT_MIN : INT_MAX;
             }
-            while(index < ss.length() && Character.isDigit(ss.charAt(index))) {
-                if(index > 0) {
-                    if(ss.charAt(index-1) == '-') {
-                        sign = -1;
-                    }
-                }
-                int digit = ss.charAt(index) - '0';
 
-                if(res > INT_MAX/10 || (res == INT_MAX/10 && digit > INT_MAX % 10)) {
-                    return (sign == -1)? INT_MIN:INT_MAX;
-                }
-                
-                res = res * 10 + digit;
-                
-                index++;
-                }
-            break;
+            result = result * 10 + digit;
+            index++;
         }
 
-      
-        return res*sign;
+        return negative ? -result : result;
     }
 }
