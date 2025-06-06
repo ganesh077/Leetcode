@@ -1,47 +1,43 @@
 class Solution {
     public int myAtoi(String s) {
-        // 1) Trim leading/trailing spaces
-        String ss = (s == null) ? "" : s.trim();
-        if (ss.isEmpty()) {
+        boolean sign = false;
+        int index = 0;
+        int res = 0;
+        int max = Integer.MAX_VALUE;
+        int min = Integer.MIN_VALUE;
+
+        String trim_s = s.trim();
+
+        if(trim_s.equals("")) {
             return 0;
         }
 
-        final int INT_MAX = Integer.MAX_VALUE; //  2147483647
-        final int INT_MIN = Integer.MIN_VALUE; // -2147483648
+        char first = trim_s.charAt(0);
 
-        // 2) Handle optional sign
-        int index = 0;
-        boolean negative = false;
-        char first = ss.charAt(0);
-
-        if (first == '+' || first == '-') {
-            negative = (first == '-');
+        if(first == '-' || first == '+') {
+            sign = (first == '-') ? true:false;
             index++;
         }
 
-        // 3) If next character is not a digit, return 0
-        if (index >= ss.length() || !Character.isDigit(ss.charAt(index))) {
+        if(index < trim_s.length() && !Character.isDigit(trim_s.charAt(index))) {
             return 0;
         }
 
-        // 4) Parse digits and check overflow
-        int result = 0;
-        while (index < ss.length()) {
-            char c = ss.charAt(index);
-            if (!Character.isDigit(c)) break;
+        while(index < trim_s.length()) {
+            char c = trim_s.charAt(index);
+
+            if(!Character.isDigit(c)) break;
 
             int digit = c - '0';
 
-            // Overflow check before multiplying
-            if (result > INT_MAX / 10 || 
-               (result == INT_MAX / 10 && digit > INT_MAX % 10)) {
-                return negative ? INT_MIN : INT_MAX;
+            if(res > max/10 || (res == max/10 && digit > max%10)) {
+                return sign?min:max;
             }
-
-            result = result * 10 + digit;
+            res = res * 10 + digit;
             index++;
+
         }
 
-        return negative ? -result : result;
+        return sign?-res:res;
     }
 }
