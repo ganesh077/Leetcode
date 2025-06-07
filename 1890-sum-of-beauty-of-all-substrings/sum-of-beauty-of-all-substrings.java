@@ -1,34 +1,28 @@
 class Solution {
     public int beautySum(String s) {
         int sum = 0;
-        int beauty = 0;
         for(int i=0; i<s.length(); i++) {
+            int[] freq = new int[26];
             for(int j=i; j<s.length(); j++) {
-                sum += bcalcB(s,i,j);
+                int c = s.charAt(j) - 'a';
+                freq[c]++;
+
+            int max = 0;
+            int min = Integer.MAX_VALUE;
+
+            for(int k=0; k<26; k++) {
+                if(freq[k] > 0) {
+                    max = Math.max(max, freq[k]);
+                    min = Math.min(min, freq[k]);
+                }
             }
+
+            sum += (max - min);
         }
+        }
+
         return sum;
     }
 
-    public int bcalcB(String s, int start, int end) {
-        int[] freq = new int[130];
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for(int i=start; i<=end; i++) {
-            int c = s.charAt(i);
-            freq[c]++;  
-        }
-
-        //System.out.print(Arrays.toString(freq));
-        
-        for(int i=0; i<freq.length; i++) {
-            if(freq[i] == 0) {
-                continue;
-            }
-            max = Math.max(max, freq[i]);
-            min = Math.min(min, freq[i]);
-        }
-
-        return max - min;
-    }
+    
 }
