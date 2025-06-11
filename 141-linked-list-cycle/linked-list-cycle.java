@@ -11,18 +11,23 @@
  */
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        HashSet<ListNode> seen = new HashSet<>();
-        ListNode tmp = head;
+        //HashSet<ListNode> seen = new HashSet<>();
+        if(head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+       
 
-        while(tmp != null) {
-            if(seen.contains(tmp)) {
-                return true;
+        while(slow != fast) {
+            if(fast == null || fast.next == null) {
+                return false;
             }
-            seen.add(tmp);
-            tmp = tmp.next;
+            fast = fast.next.next;
+            slow = slow.next;
         }
 
-        return false;
+        return true;
 
     }
 }
