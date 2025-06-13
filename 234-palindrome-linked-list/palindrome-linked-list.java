@@ -33,6 +33,8 @@ class Solution {
             //System.out.println(reversed.val + "reversed");
             p2 = p2.next;
         }
+
+        slow.next = reverse(reversed);
         return true;
     }
 
