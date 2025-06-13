@@ -14,27 +14,18 @@ class Solution {
         if(head == null || head.next == null) {
             return true;
         }
-        ListNode fast=head, slow=head;
-
-        while(fast != null && fast.next != null) {
-            fast = fast.next.next;
-            slow = slow.next; 
-            
+        ListNode tmp = null;
+        for(ListNode i = head; i!=null; i=i.next) {
+             tmp = new ListNode(i.val,tmp);
         }
-        
-        ListNode reversed = reverse(slow);
-        ListNode p1 = head, p2 = reversed;
-        while(p2 != null) {
+        ListNode p1 = head, p2 = tmp;
+        while(p1 != null) {
             if(p1.val != p2.val) {
                 return false;
             }
-            //System.out.println(mid.val + "mid");
             p1 = p1.next;
-            //System.out.println(reversed.val + "reversed");
             p2 = p2.next;
         }
-
-        slow.next = reverse(reversed);
         return true;
     }
 
