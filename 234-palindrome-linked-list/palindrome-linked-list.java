@@ -14,16 +14,15 @@ class Solution {
         if(head == null || head.next == null) {
             return true;
         }
-        ListNode fast=head, slow=head, prev = null;
+        ListNode fast=head, slow=head;
 
         while(fast != null && fast.next != null) {
             fast = fast.next.next;
-            prev = slow;
             slow = slow.next; 
             
         }
         
-        ListNode reversed = reverse(prev.next);
+        ListNode reversed = reverse(slow);
         ListNode p1 = head, p2 = reversed;
         while(p2 != null) {
             if(p1.val != p2.val) {
