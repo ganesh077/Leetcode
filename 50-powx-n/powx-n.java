@@ -3,8 +3,7 @@ class Solution {
         // Promote n to long to handle Integer.MIN_VALUE correctly
         long N = n;
         if (N < 0) {
-            x = 1.0 / x;
-            N = -N;
+           return powHelper(1/x, -N);
         }
         return powHelper(x, N);
     }
