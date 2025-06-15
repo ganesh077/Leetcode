@@ -12,7 +12,7 @@ class Solution {
     private double powHelper(double x, long N) {
         // base case
         if (N == 0) {
-            return 1.0;
+            return 1;
         }
         // recurse on half exponent
      
