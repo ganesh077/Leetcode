@@ -16,14 +16,14 @@ class Solution {
             return 1.0;
         }
         // recurse on half exponent
-        double half = powHelper(x, N / 2);
+     
         // if N is even: (x^(N/2))^2
         if (N % 2 == 0) {
-            return half * half;
+            return powHelper(x*x, N / 2);
         } 
         // if N is odd: x * (x^(N/2))^2
         else {
-            return half * half * x;
+            return x*powHelper(x*x, (N-1) / 2);
         }
     }
 }
