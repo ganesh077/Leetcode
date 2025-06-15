@@ -10,7 +10,7 @@ class Solution {
             return 1;
         }
         if(pow%2 == 0) {
-            return power(base*base%mod, pow/2, mod)%mod;
+            return power(base*base%mod, pow/2, mod);
         }
         else {
             return base*power(base*base%mod, pow/2, mod)%mod;
