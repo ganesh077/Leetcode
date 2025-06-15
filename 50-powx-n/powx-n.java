@@ -1,32 +1,29 @@
 class Solution {
-    double res = 0;
     public double myPow(double x, int n) {
-        
-        if(n == 0 || x == 1) {
-            return 1;
+        // Promote n to long to handle Integer.MIN_VALUE correctly
+        long N = n;
+        if (N < 0) {
+            x = 1.0 / x;
+            N = -N;
         }
-
-        if(x == -1) {
-            if(n < 0) {
-                return 1;
-            }
-            return -1;
+        return powHelper(x, N);
+    }
+    
+    // Recursively compute x^N in O(log N) time
+    private double powHelper(double x, long N) {
+        // base case
+        if (N == 0) {
+            return 1.0;
         }
-
-        if(n < 0) {
-            x = 1/x;
-            n = -1*n;
+        // recurse on half exponent
+        double half = powHelper(x, N / 2);
+        // if N is even: (x^(N/2))^2
+        if (N % 2 == 0) {
+            return half * half;
+        } 
+        // if N is odd: x * (x^(N/2))^2
+        else {
+            return half * half * x;
         }
-        
-        
-
-        if(res + 32 > Integer.MAX_VALUE/n) {
-            return 0;
-        }
-        
-        res = res + (x*myPow(x,n-1));
-        
-        
-        return res;
     }
 }
