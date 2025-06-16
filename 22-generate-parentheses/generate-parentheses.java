@@ -22,5 +22,7 @@ class Solution {
             generate(ans,sb,open,close+1,n);
             sb.deleteCharAt(sb.length()-1);
         }
+
+        return;
     }
 }
