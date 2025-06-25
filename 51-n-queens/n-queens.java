@@ -1,60 +1,54 @@
 class Solution {
     public List<List<String>> solveNQueens(int n) {
-        List<List<String>> res = new ArrayList<>();
-        boolean[][] blocked = new boolean[n][n];
-        backtrack(res, n, blocked, 0, new ArrayList<>());
+        List<List<String>> res = new ArrayList<List<String>>();
+        HashSet<Integer> colcheck = new HashSet<>();
+        HashSet<Integer> upperD = new HashSet<>();
+        HashSet<Integer> lowerD = new HashSet<>();
+        char[][] current = new char[n][n];
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                current[i][j] = '.';
+            }
+        }
+        backtrack(res, n,current, 0,colcheck,upperD,lowerD);
         return res;
     }
 
-    private void backtrack(List<List<String>> res, int n,
-                           boolean[][] blocked, int row,
-                           List<String> current) {
-        if (row == n) {                // placed n queens → store board
-            res.add(new ArrayList<>(current));
+    public void backtrack(List<List<String>> res,int n,char[][] current, int r, HashSet<Integer> colcheck, HashSet<Integer> upperD, HashSet<Integer> lowerD) {
+        
+        if(r == n) {
+            res.add(render(current));
             return;
         }
 
-        for (int col = 0; col < n; col++) {
-            if (blocked[row][col]) continue;
+        for(int c=0; c<n; c++) {
+            if(colcheck.contains(c) || upperD.contains(r+c) || lowerD.contains(r-c)) continue;
 
-            // 1️⃣ mark all squares this queen attacks + remember them
-            List<int[]> changed = mark(row, col, blocked, n);
+            current[r][c] = 'Q';
+            colcheck.add(c);
+            lowerD.add(r-c);
+            upperD.add(r+c);
 
-            // 2️⃣ add visual row (".Q..") to current board
-            current.add(buildRow(col, n));
+            backtrack(res, n,current, r+1,colcheck,upperD,lowerD);
 
-            // 3️⃣ recurse to next row
-            backtrack(res, n, blocked, row + 1, current);
+            current[r][c] = '.';
+            colcheck.remove(c);
+            lowerD.remove(r-c);
+            upperD.remove(r+c);
 
-            // 4️⃣ undo
-            current.remove(current.size() - 1);
-            for (int[] p : changed) blocked[p[0]][p[1]] = false;
         }
+
     }
 
-    /** Mark column & both diagonals below (row,col).  Returns list of cells flipped. */
-    private List<int[]> mark(int row, int col, boolean[][] b, int n) {
-        List<int[]> flipped = new ArrayList<>();
+    public List<String> render(char[][] board) {
+        List<String> current = new ArrayList<String>();
 
-        // vertical ↓
-        for (int r = row + 1; r < n; r++) if (!b[r][col]) {
-            b[r][col] = true; flipped.add(new int[]{r, col});
+        for(char[] i: board) {
+            current.add(String.valueOf(i));
         }
-        // diag ↘
-        for (int r = row + 1, c = col + 1; r < n && c < n; r++, c++) if (!b[r][c]) {
-            b[r][c] = true; flipped.add(new int[]{r, c});
-        }
-        // diag ↙
-        for (int r = row + 1, c = col - 1; r < n && c >= 0; r++, c--) if (!b[r][c]) {
-            b[r][c] = true; flipped.add(new int[]{r, c});
-        }
-        return flipped;
+
+        return current;
     }
 
-    private String buildRow(int qCol, int n) {
-        char[] ch = new char[n];
-        Arrays.fill(ch, '.');
-        ch[qCol] = 'Q';
-        return new String(ch);
-    }
+    
 }
