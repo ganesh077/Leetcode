@@ -22,17 +22,18 @@ class Solution {
         }
 
         Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> stack2 = new Stack<>();
         stack.add(root);
         
         while(!stack.isEmpty()) {
             TreeNode node = stack.pop();
-            res.add(node.val);
+            stack2.add(node);
 
             if(node.left != null) stack.add(node.left);
             if(node.right != null) stack.add(node.right);
         }
 
-        Collections.reverse(res);
+        while(!stack2.isEmpty()) res.add(stack2.pop().val);
         return res;
     }
 }
