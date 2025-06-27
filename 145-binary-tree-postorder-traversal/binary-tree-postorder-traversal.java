@@ -14,17 +14,25 @@
  * }
  */
 class Solution {
-    private List<Integer> res = new ArrayList<>();
+    
     public List<Integer> postorderTraversal(TreeNode root) {
-         if(root == null) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null) {
             return res;
         }
 
+        Stack<TreeNode> stack = new Stack<>();
+        stack.add(root);
         
-        postorderTraversal(root.left);
-        postorderTraversal(root.right);
-        res.add(root.val);
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            res.add(node.val);
 
+            if(node.left != null) stack.add(node.left);
+            if(node.right != null) stack.add(node.right);
+        }
+
+        Collections.reverse(res);
         return res;
     }
 }
