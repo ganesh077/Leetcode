@@ -20,20 +20,27 @@ class Solution {
         if(root == null) {
             return res;
         }
-
         Stack<TreeNode> stack = new Stack<>();
-        Stack<TreeNode> stack2 = new Stack<>();
-        stack.add(root);
+        TreeNode curr = root, lastprocessed = null;;
         
-        while(!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            stack2.add(node);
+        while(curr != null || !stack.isEmpty()) {
+            while(curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            
+            TreeNode top = stack.peek();
+            
 
-            if(node.left != null) stack.add(node.left);
-            if(node.right != null) stack.add(node.right);
+            if(top.right != null && lastprocessed != top.right) {
+                curr = top.right;
+            }
+            else {
+                res.add(top.val);
+                lastprocessed = stack.pop();
+            }
         }
 
-        while(!stack2.isEmpty()) res.add(stack2.pop().val);
         return res;
     }
 }
