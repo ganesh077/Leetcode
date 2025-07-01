@@ -9,32 +9,16 @@
  */
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        List<TreeNode> left = new ArrayList<>();
-        List<TreeNode> right = new ArrayList<>();
-        helper(root,p,left);
-        helper(root,q,right);
-        
-        int i=0;
-
-        while(i < left.size() && i < right.size() && left.get(i) == right.get(i)) {
-            i++;
+        if(root == null || root == p || root == q) {
+            return root;
         }
 
-        return left.get(i-1);
-    }
+        TreeNode left = lowestCommonAncestor(root.left, p,q);
+        TreeNode right = lowestCommonAncestor(root.right, p,q);
 
-    public boolean helper(TreeNode root,TreeNode find,List<TreeNode> st) {
-        if(root == null) return false;
-        st.add(root);
-        if(root == find) return true;
-        if(helper(root.left,find,st) || helper(root.right,find,st)) {
-            return true;
-        }
+        if(left != null && right != null) return root;
 
-        st.remove(st.size()-1);
-        return false;
-
-        
+        return left != null? left:right;
     }
 
      
