@@ -16,27 +16,20 @@
 class Solution {
     public boolean isSymmetric(TreeNode root) {
         if(root == null || (root.left == null && root.right == null)) return true;
-        System.out.println(lefttree(root.left));
-        System.out.println(righttree(root.right));
-        if(lefttree(root.left).equals(righttree(root.right))) return true;
-        return false;
+        return helper(root.left,root.right);
     }
 
-    public String lefttree(TreeNode root) {
-        if(root == null) return ".";
+    public boolean helper(TreeNode p1, TreeNode p2) {
+        if(p1 == null && p2 == null) return true;
+        if(p1 == null && p2 != null) return false;
+        if(p2 == null && p1 != null) return false;
 
-        String temp = Integer.toString(root.val);
-        temp += lefttree(root.left);
-        temp += lefttree(root.right);
-        return temp;
+        if(p1.val != p2.val) return false;
+    
+        return helper(p1.left,p2.right) && helper(p1.right,p2.left);
+        
     }
+    
 
-    public String righttree(TreeNode root) {
-        if(root == null) return ".";
-
-        String temp = Integer.toString(root.val);
-        temp += righttree(root.right);
-        temp += righttree(root.left);
-        return temp;
-    }
+    
 }
