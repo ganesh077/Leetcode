@@ -21,7 +21,7 @@ class Solution {
 
         if (l == r) {
             // Left n right subtree are perfect
-            return (int)Math.pow(2,l)-1;
+            return (1 << l)-1;
         } else {
             return 1 + countNodes(root.left) + countNodes(root.right);
         }
