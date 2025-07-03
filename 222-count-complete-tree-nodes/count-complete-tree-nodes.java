@@ -16,15 +16,14 @@
 class Solution {
     public int countNodes(TreeNode root) {
         if(root == null) return 0;
-        int l = findH(root.left);
-        int r = findH(root.right);
+        int l = findH(root);
+        int r = findR(root);
 
         if (l == r) {
-            // Left subtree is perfect
-            return (1 << l) + countNodes(root.right);
+            // Left n right subtree are perfect
+            return (int)Math.pow(2,l)-1;
         } else {
-            // Right subtree is perfect but one level shorter
-            return (1 << r) + countNodes(root.left);
+            return 1 + countNodes(root.left) + countNodes(root.right);
         }
 
     }
@@ -32,5 +31,10 @@ class Solution {
     public int findH(TreeNode root) {
         if(root == null) return 0;
         return 1+findH(root.left);
+    }
+
+    public int findR(TreeNode root) {
+        if(root == null) return 0;
+        return 1+findR(root.right);
     }
 }
