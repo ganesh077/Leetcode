@@ -34,9 +34,9 @@ class Solution {
         TreeNode root = new TreeNode(rootval);
         int idx = map.get(rootval);
 
-
         root.right = helper(postorder, idx+1, end);
         root.left = helper(postorder, start, idx-1);
+        
         
 
         return root;
