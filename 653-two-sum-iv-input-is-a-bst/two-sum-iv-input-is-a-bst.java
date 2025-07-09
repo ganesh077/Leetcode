@@ -14,26 +14,33 @@
  * }
  */
 class Solution {
-    HashMap<Integer,TreeNode> map = new HashMap<>();
+    
     public boolean findTarget(TreeNode root, int k) {
-        Stack<TreeNode> stack = new Stack<>();
-        TreeNode curr = root;
+        List<Integer> mylist = new ArrayList<>();
+        helper(root,k,mylist);
+        int l=0, r=mylist.size()-1;
 
-        while(curr != null || !stack.isEmpty()) {
-            while(curr != null) {
-                stack.add(curr);
-                curr = curr.left;
-            }
-
-            curr = stack.pop();
-            if(map.containsKey(curr.val)) {
+        while(l < r) {
+            if(mylist.get(r)+mylist.get(l) == k) {
                 return true;
             }
-            map.put(k-curr.val,curr);
-            curr = curr.right;
+            else if(mylist.get(r)+mylist.get(l) < k) {
+                l++;
+            }
+            else {
+                r--;
+            }
         }
 
         return false;
+    }
+
+    public void helper(TreeNode root, int k ,List<Integer> mylist) {
+        if(root == null) return;
+
+        helper(root.left,k,mylist);
+        mylist.add(root.val);
+        helper(root.right,k,mylist);
     }
 
     
