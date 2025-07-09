@@ -16,24 +16,22 @@
 class Solution {
     private int pre = 0;
     public TreeNode bstFromPreorder(int[] preorder) {
-        int len = preorder.length;
-        return helper(0,len-1,preorder);
+        return helper(Integer.MIN_VALUE,Integer.MAX_VALUE,preorder);
 
     }
 
-    public TreeNode helper(int start, int end,int[] preorder) {
-        if(start > end) return null;
+    public TreeNode helper(int low, int high,int[] preorder) {
+        if(pre == preorder.length) return null;
 
-        int val = preorder[pre++];
+        int val = preorder[pre];
+        if(val > high || val < low) return null;
         TreeNode treeval = new TreeNode(val);
-        int split = start+1;
-        while(split <= end && val > preorder[split]) {
-            split++;
-        }
+        pre++;
+
         
 
-        treeval.left = helper(start+1,split-1,preorder);
-        treeval.right = helper(split,end,preorder);
+        treeval.left = helper(low,val-1,preorder);
+        treeval.right = helper(val+1,high,preorder);
 
         return treeval;
     }
