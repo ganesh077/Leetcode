@@ -26,9 +26,9 @@ class Solution {
 
     public void dfs(int val, List<List<Integer>> mylist, boolean[] visit) {
         visit[val] = true;
-        for(int i=0; i<mylist.get(val).size(); i++) {
-            if(!visit[mylist.get(val).get(i)]) {
-                dfs(mylist.get(val).get(i),mylist,visit);
+        for(int i: mylist.get(val)) {
+            if(!visit[i]) {
+                dfs(i,mylist,visit);
             }
         }
         
