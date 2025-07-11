@@ -12,19 +12,12 @@ class MyStack {
     }
     
     public void push(int x) {
-        if(top == q1) {
-            q2.add(x);
-            while(!top.isEmpty()) {
-                q2.add(top.remove());
-            }
-            top = q2;
-        }
-        else {
-            q1.add(x);
-            while(!top.isEmpty()) {
-                q1.add(top.remove());
-            }
-            top = q1;
+        top.add(x);
+        int size = top.size();
+
+        while(size > 1) {
+            top.add(top.remove());
+            size--;
         }
 
     }
