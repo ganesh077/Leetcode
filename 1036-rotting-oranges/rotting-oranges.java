@@ -21,18 +21,8 @@ class Solution {
         int rowmax = grid.length-1;
         int colmax = grid[0].length-1;
         List<Edge> rottens = new ArrayList<>();
-        boolean nofresh = true;
 
-        for(int i=0; i<grid.length; i++) {
-            for(int j=0; j<grid[0].length; j++) {
-                if(grid[i][j] == 1) {
-                    nofresh = false;
-                    break;
-                }
-            }
-        }
-
-        if(nofresh) return 0;
+        if(!fresh(grid)) return 0;
 
         for(int i=0; i<grid.length; i++) {
             for(int j=0; j<grid[0].length; j++) {
@@ -77,16 +67,24 @@ class Solution {
         }
 
 
+        
+        if(fresh(grid)) {
+            return -1;
+        }
+        return minute;
+        
+    }
+
+
+    public boolean fresh(int[][] grid) {
         for(int i=0; i<grid.length; i++) {
             for(int j=0; j<grid[0].length; j++) {
                 if(grid[i][j] == 1) {
-                    return -1;
+                    return true;
                 }
             }
         }
-
-        return minute;
-        
+        return false;
     }
 
 
