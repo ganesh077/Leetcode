@@ -19,14 +19,14 @@ class Solution {
         int[][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
 
         while(!q.isEmpty()) {
-            int[] curr = q.remove();
+            
             int size = q.size();
-           
-               
+            for(int i=0;i<size;i++) {
+                int[] curr = q.remove();
+                int nrow = curr[0];
+                int ncol = curr[1];
 
                 for(int[] dir:directions) {
-                     int nrow = curr[0];
-                     int ncol = curr[1];
                     int r = nrow+dir[0];
                     int c = ncol+dir[1];
 
@@ -36,7 +36,7 @@ class Solution {
                         q.add(new int[]{r,c});
                     } 
                 }
-            
+            }
         }
 
         return mat;
