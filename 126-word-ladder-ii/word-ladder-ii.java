@@ -11,26 +11,23 @@ class Solution {
         }
         Map<String, HashSet<String>> parents = new HashMap<>();
         Queue<String> q = new LinkedList<>();
-        //Set<String> thislevel = new HashSet<>();
 
         q.add(beginWord);
 
         while(!q.isEmpty() && !isfound) {
 
-            Set<String> nextlevel = new HashSet<>();
+            Set<String> level = new HashSet<>();
             
             int size = q.size();
 
             for(int i=0; i<size; i++) {
                 String curr = q.remove();
-                //thislevel.add(curr);
                 if(curr.equals(endWord)) {
                     isfound = true;
                 }
-                findAdj(curr,nextlevel,q,wordset,parents);
+                findAdj(curr,level,q,wordset,parents);
             }
-            wordset.removeAll(nextlevel);
-            //thislevel = nextlevel;
+            wordset.removeAll(level);
         }
         
         for(Map.Entry<String, HashSet<String>> parent: parents.entrySet()) {
