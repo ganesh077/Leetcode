@@ -47,7 +47,6 @@ class Solution {
                 tmp[pos] = (char)('a'+i);
                 String str = new String(tmp);
                 if(!str.equals(curr) && wordset.contains(str)) {
-                    
                     parents.computeIfAbsent(str,k -> new HashSet<>()).add(curr);
                     if(nextlevel.add(str)) q.add(str);
                 }
@@ -59,18 +58,16 @@ class Solution {
     public void dfs(String curr, String target, Map<String, HashSet<String>> parents,  List<List<String>> res, List<String> currlist) {
         
         if(curr.equals(target)) {
-            List<String> path = new ArrayList<>(currlist);
-            Collections.reverse(path);
-            res.add(path);
+            res.add(new ArrayList<>(currlist));
             return;
         }
 
         if(!parents.containsKey(curr)) return;
 
         for(String parent: parents.get(curr)) {
-            currlist.add(parent);
+            currlist.addFirst(parent);
             dfs(parent, target, parents, res, currlist);
-            currlist.remove(currlist.size()-1);
+            currlist.removeFirst();
         }
     }
 
