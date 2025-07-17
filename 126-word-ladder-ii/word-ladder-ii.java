@@ -11,7 +11,7 @@ class Solution {
         }
         Map<String, HashSet<String>> parents = new HashMap<>();
         Queue<String> q = new LinkedList<>();
-        Set<String> thislevel = new HashSet<>();
+        //Set<String> thislevel = new HashSet<>();
 
         q.add(beginWord);
 
@@ -23,14 +23,14 @@ class Solution {
 
             for(int i=0; i<size; i++) {
                 String curr = q.remove();
-                thislevel.add(curr);
+                //thislevel.add(curr);
                 if(curr.equals(endWord)) {
                     isfound = true;
                 }
                 findAdj(curr,nextlevel,q,wordset,parents);
             }
             wordset.removeAll(nextlevel);
-            thislevel = nextlevel;
+            //thislevel = nextlevel;
         }
         
         for(Map.Entry<String, HashSet<String>> parent: parents.entrySet()) {
