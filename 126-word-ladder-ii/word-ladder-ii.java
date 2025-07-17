@@ -30,9 +30,7 @@ class Solution {
             wordset.removeAll(level);
         }
         
-        for(Map.Entry<String, HashSet<String>> parent: parents.entrySet()) {
-            System.out.println(parent.getKey() + " -- " + parent.getValue());
-        }
+        
         List<String> currlist = new ArrayList<>();
         currlist.add(endWord);
         dfs(endWord, beginWord, parents, res, currlist);
