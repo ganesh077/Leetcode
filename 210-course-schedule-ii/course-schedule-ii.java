@@ -1,52 +1,42 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        Queue<Integer> q = new LinkedList<>();
-        int[] order = new int[numCourses];
-        int[] indegrees = new int[numCourses];
-        ArrayList<List<Integer>> connections = new ArrayList<>(); 
-        for(int i=0; i<numCourses; i++) connections.add(new ArrayList<>());
-        int count = 0;
-        Arrays.fill(indegrees,0);
+        boolean[] visited = new boolean[numCourses];
+        boolean[] path = new boolean[numCourses];
+        List<Integer> res = new ArrayList<>();
+
+        List<List<Integer>> adj = new ArrayList<>();
+
+        for(int i=0; i<numCourses; i++) adj.add(new ArrayList<>());
 
         for(int[] pre: prerequisites) {
-            connections.get(pre[1]).add(pre[0]);
-            indegrees[pre[0]]++;
+            adj.get(pre[1]).add(pre[0]);
         }
 
-        for(int i=0;i<indegrees.length;i++) {
-            if(indegrees[i] == 0) {
-                q.add(i);
-                order[count++] = i;
+        for(int i=0; i<numCourses; i++) {
+            if(!visited[i]) {
+                if(isCycle(adj,i,visited,path,res)) return new int[0];
             }
         }
 
-        while(!q.isEmpty()) {
-            int size = q.size();
+        Collections.reverse(res);
+        int[] ans = res.stream().mapToInt(i -> i).toArray();
+        return ans;
+    }
 
-            for(int i=0; i<size; i++) {
-                int curr = q.remove();
-                List<Integer> adj = connections.get(curr);
-                for(int val: adj) {
-                    indegrees[val]--;
-
-                    if(indegrees[val] == 0) {
-                        q.add(val);
-                        order[count++] = val;
-                        
-
-                    }
-                    }
-                }
-
-            }
-
-            if(count == numCourses) {
-            return order;
-        }
-        else {
-            return new int[]{};
-        }
-        }
+    public boolean isCycle(List<List<Integer>> adj, int node, boolean[] visited, boolean[] path,List<Integer> res) {
+        if (visited[node]) return false; 
+        if(path[node]) return true;
 
         
+        path[node] = true;
+
+        for(int neigh: adj.get(node)) {
+            if(isCycle(adj,neigh,visited,path,res)) return true;
+        }
+
+        visited[node] = true;
+        path[node] = false;
+        res.add(node);
+        return false;
+    }
     }
