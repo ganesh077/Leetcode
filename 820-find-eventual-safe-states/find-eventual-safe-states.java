@@ -1,32 +1,43 @@
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
-        int n = graph.length;
-        int[] color = new int[n];
-
         List<Integer> safe = new ArrayList<>();
+        List<List<Integer>> revadj = new ArrayList<>();
+        int[] outdeg = new int[graph.length];
 
-        for(int i=0; i<n; i++) {
-            if(dfs(i,color,graph)) {
-                safe.add(i);
+        for(int i=0; i<graph.length; i++) revadj.add(new ArrayList<>());
+
+        for(int i=0; i<graph.length; i++) {
+            for(int j=0; j<graph[i].length; j++) {
+                revadj.get(graph[i][j]).add(i);
             }
         }
-        
+
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0; i<graph.length; i++ ) {
+            if(graph[i].length == 0) {
+                q.add(i);
+            }
+
+            outdeg[i] = graph[i].length;
+        }
+        //revadj.stream().forEach(System.out::println);
+        //System.out.println(Arrays.toString(indeg));
+
+
+
+        while(!q.isEmpty()) {
+            int curr = q.remove();
+            safe.add(curr);
+            for(int i=0; i<revadj.get(curr).size();i++) {
+                outdeg[revadj.get(curr).get(i)]--;
+                if(outdeg[revadj.get(curr).get(i)] == 0) {
+                    q.add(revadj.get(curr).get(i));
+                }  
+            }
+        }
+
+        Collections.sort(safe);
         return safe;
-    }
 
-    public boolean dfs(int node,int[] color,int[][] graph) {
-        if(color[node] != 0) {
-            return color[node] == 2;
-        }
-
-        color[node] = 1;
-
-        for(int neigh: graph[node]) {
-            if(!dfs(neigh,color,graph)) return false;
-        }
-
-        color[node] = 2;
-        return true;
-
-    }
+    }   
 }
