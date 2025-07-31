@@ -18,6 +18,7 @@ class Solution {
         while(!pq.isEmpty()) {
             int[] curr = pq.poll();
             int r = curr[0], c= curr[1], w=curr[2];
+            if(distance[r][c] < w) continue;
             if(r == row-1 && c == col-1) return distance[r][c];
             for(int[] d: dir) {
                 int nrow = r+d[0];
