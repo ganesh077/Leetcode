@@ -23,7 +23,7 @@ class Solution {
             if(stops > k) continue;
             for(int[] neigh: adj.get(city)) {
                 
-                if(cost+neigh[1] < costArray[neigh[0]] && stops <= k) {
+                if(cost+neigh[1] < costArray[neigh[0]]) {
                     pq.add(new int[]{neigh[0],cost+neigh[1],stops+1});
                     costArray[neigh[0]] = cost+neigh[1];
                 }  
