@@ -1,6 +1,7 @@
 class Solution {
     class DisjoinSet {
         private int[] par, size;
+        private int components;
         public DisjoinSet(int n) {
             par = new int[n];
             size = new int[n];
@@ -10,6 +11,7 @@ class Solution {
             for(int i=0; i<n; i++) {
                 par[i] = i;
             }
+            components = n;
         }
 
         public int UnionFind(int x) {
@@ -19,7 +21,7 @@ class Solution {
 
         public void UnionSize(int x, int y) {
             int leaderx = UnionFind(x), leadery = UnionFind(y);
-
+            if(leaderx == leadery) return;
             if(size[leaderx] > size[leadery]) {
                 par[leadery] = leaderx;
                 size[leaderx] += size[leadery];
@@ -32,11 +34,12 @@ class Solution {
                 par[leadery] = leaderx;
                 size[leaderx] += size[leadery];
             }
+            components--;
         }
     }
     public int makeConnected(int n, int[][] connections) {
         int cables = 0;
-        Set<Integer> components = new HashSet<>();;
+        
         DisjoinSet dj = new DisjoinSet(n);
         for(int[] conn : connections) {
             int x = conn[0], y = conn[1];
@@ -47,14 +50,12 @@ class Solution {
             dj.UnionSize(x,y);
         }
 
-        for(int i=0; i<n; i++) {
-            components.add(dj.UnionFind(i));
-        }
+       
 
-        System.out.println(components + " " + cables);
-        if(components.size()-1 > cables) return -1;
+        
+        if(dj.components-1 > cables) return -1;
 
-        return components.size()-1;
+        return dj.components-1;
     }
 
 
