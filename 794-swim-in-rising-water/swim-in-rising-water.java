@@ -55,7 +55,7 @@ class Solution {
        Collections.sort(adj,(x,y) -> Integer.compare(x[2],y[2]));
        int max = 0;
        for (int[] in : adj) {
-          System.out.println(Arrays.toString(in));
+          
           if(dj.union(in[0],in[1])) {
             max = Math.max(max,in[2]);
           }
