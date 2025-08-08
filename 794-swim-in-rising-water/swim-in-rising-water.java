@@ -12,13 +12,13 @@ class Solution {
             int[] cur = pq.poll();
             int row = cur[0], col= cur[1], w= cur[2];
             if(row == n-1 && col == n-1) return w;
-            
+            visited[row][col] = true;
             for(int[] dir: directions) {
                 int nrow = row + dir[0], ncol = col+dir[1];
                 if(nrow >=0 && nrow < n && ncol >= 0 && ncol < n && !visited[nrow][ncol]) {
                     int maxw = Math.max(w,grid[nrow][ncol]);
                     pq.offer(new int[]{nrow,ncol,maxw});    
-                    visited[row][col] = true;
+                    
                 }
             }
         }
