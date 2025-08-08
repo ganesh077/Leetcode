@@ -37,53 +37,75 @@ class Solution {
         }
     }
     public int largestIsland(int[][] grid) {
-  int n = grid.length;
-  Disjoint ds = new Disjoint(n*n);
-  boolean hasZero = false;
-  int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+        int n = grid.length;
+        int[][] directions = {{0,1},{0,-1},{1,0},{-1,0}};
+        Disjoint ds = new Disjoint(n*n);
+        Map<Integer, Set<Integer>> mymap = new HashMap<>();
+        boolean hasZero = false;
+        boolean hasOne = false;
 
-  // Phase 1: union all adjacent 1’s
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (grid[i][j] == 1) {
-        int u = i*n + j;
-        for (int[] d : dirs) {
-          int r = i + d[0], c = j + d[1];
-          if (r>=0 && r<n && c>=0 && c<n && grid[r][c]==1)
-            ds.union(u, r*n + c);
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == 1) {
+                    hasOne = true;
+                    int flat = flatten(n,i,j);
+                    for(int[] dir: directions) {
+                        int r = i+dir[0], c = j+dir[1];
+                        int nflat = flatten(n,r,c);
+                        if(r >= 0 && r < n && c >=0 && c < n) {
+                            if(grid[r][c] == 1) {
+                                ds.union(flat,nflat);
+                            }
+                        }
+                 }
+                }
+                else {
+                    hasZero = true;
+                }
+            }
         }
-      } else {
-        hasZero = true;
-      }
-    }
-  }
 
-  // Get max island size without any flips
-  int max = hasZero ? 0 : n*n;
-  for (int idx = 0; idx < n*n; idx++) {
-    if (ds.find(idx) == idx) 
-      max = Math.max(max, ds.size[idx]);
+        if(!hasOne)  return 1;
+        int max = hasZero? 0:n*n;
+         
+        for (int idx = 0; idx < n*n; idx++) {
+            if (ds.find(idx) == idx) 
+            max = Math.max(max, ds.size[idx]);
   }
+    
 
-  // Phase 2: for each zero, collect unique neighbor-roots and sum sizes+1
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (grid[i][j] == 0) {
-        Set<Integer> neigh = new HashSet<>();
-        for (int[] d : dirs) {
-          int r = i + d[0], c = j + d[1];
-          if (r>=0 && r<n && c>=0 && c<n && grid[r][c]==1)
-            neigh.add(ds.find(r*n + c));
+         for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == 0) {
+                    int flat = flatten(n,i,j);
+                    Set<Integer> myset = new HashSet<>();
+                    for(int[] dir: directions) {
+                        int r = i+dir[0], c = j+dir[1];
+                        int nflat = flatten(n,r,c);
+                        if(r >= 0 && r < n && c >=0 && c < n) {
+                            if(grid[r][c] == 1) {
+                                myset.add(ds.find(nflat));
+                            }
+                        }
+                    }
+                    
+                    int sum = 1;
+                    for(int k: myset) {
+                        sum += ds.findsize(k);
+                    }
+                    max = Math.max(max, sum);
+                }
+            }
+
         }
-        int sum = 1;
-        for (int root : neigh)
-          sum += ds.size[root];
-        max = Math.max(max, sum);
-      }
+
+        return max;
+
+        
+
     }
-  }
 
-  return max;
-}
-
+    public int flatten(int len, int r , int c) {
+        return len*r+c;
+    }
 }
