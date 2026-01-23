@@ -1,13 +1,13 @@
 class Node {
 
     long value;
-    int left;
+    int index;
     Node prev;
     Node next;
 
-    Node(int value, int left) {
+    Node(int value, int index) {
         this.value = value;
-        this.left = left;
+        this.index = index;
     }
 }
 
@@ -26,7 +26,7 @@ class PQItem implements Comparable<PQItem> {
     @Override
     public int compareTo(PQItem other) {
         if (this.cost == other.cost) {
-            return this.first.left - other.first.left;
+            return this.first.index - other.first.index;
         }
         return this.cost < other.cost ? -1 : 1;
     }
@@ -63,8 +63,8 @@ public class Solution {
             long cost = item.cost;
 
             if (
-                merged[first.left] ||
-                merged[second.left] ||
+                merged[first.index] ||
+                merged[second.index] ||
                 first.value + second.value != cost
             ) {
                 continue;
@@ -106,7 +106,7 @@ public class Solution {
             }
 
             first.value = cost;
-            merged[second.left] = true;
+            merged[second.index] = true;
         }
 
         return count;
